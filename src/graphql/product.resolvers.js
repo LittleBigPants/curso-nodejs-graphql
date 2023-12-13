@@ -1,15 +1,15 @@
- const getProduct = (_, args) => {
+ const ProductsService = require('./../services/product.service')
+ const service = new ProductsService();
+
+const getProduct = async (_, args) => {
+  const product = await service.findOne(args.id);
   return {
-    id: args.id,
-    name: 'product 1',
-    price: 100.12,
-    description: 'bla bla bla bla',
-    image: 'http://image.asas',
-    createdAt: new Date().toISOString(),
+    product
   };
  }
- const getProducts = (_, args) => {
-  return [];
+ const getProducts = async (_, args) => {
+  const products = await service.find({});
+  return products;
  }
 
 

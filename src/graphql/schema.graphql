@@ -5,7 +5,7 @@ type Query {
     getFloat(price: Float!): Float
     getString: String
     getBoolean: Boolean
-    getID:ID
+    getID: ID
     getNumbers(numbers: [Int!]!): [Int]
     # products
     product(id: ID!): Product
