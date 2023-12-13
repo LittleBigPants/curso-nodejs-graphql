@@ -1,4 +1,5 @@
-const {getProducts, getProduct, addProduct} = require('./product.resolvers');
+const { DATE } = require('sequelize');
+const {getProducts, getProduct, addProduct, updateProduct, deleteProduct} = require('./product.resolvers');
 
 const resolvers = {
   Query: {
@@ -18,8 +19,11 @@ const resolvers = {
     allProducts: getProducts
   },
   Mutation: {
-    addProduct
+    addProduct,
+    deleteProduct,
+    updateProduct
   }
 };
+
 
 module.exports = resolvers;

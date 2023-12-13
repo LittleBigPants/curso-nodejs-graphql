@@ -1,21 +1,27 @@
  const ProductsService = require('./../services/product.service')
  const service = new ProductsService();
 
-const getProduct = async (_, args) => {
-  const product = await service.findOne(args.id);
-  return {
-    product
-  };
+const getProduct =  (_, args) => {
+  return service.findOne(args.id)
  }
- const getProducts = async (_, args) => {
-  const products = await service.find({});
-  return products;
+ const getProducts = (_, args) => {
+  return service.find({});
  }
 
- const addProduct = async (_, { dto }) =>{
-  const newProduct = await service.create(dto);
-  return newProduct;
+ const addProduct = (_, { dto }) =>{
+  return service.create(dto);
+
  }
 
+ const updateProduct =  (_, {id, dto}) => {
+  return  service.update(id, dto);
+ }
 
- module.exports = {getProducts, getProduct, addProduct};
+ const deleteProduct = async (_, {id}) => {
+  await  service.delete(id);
+  return id
+ }
+ // un resolve resuelve las promesas sin necesidad de un await async
+
+
+ module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct};
