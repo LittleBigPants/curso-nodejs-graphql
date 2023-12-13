@@ -12,5 +12,10 @@ const getProduct = async (_, args) => {
   return products;
  }
 
+ const addProduct = async (_, { dto }) =>{
+  const newProduct = await service.create(dto);
+  return newProduct;
+ }
 
- module.exports = {getProducts, getProduct};
+
+ module.exports = {getProducts, getProduct, addProduct};
