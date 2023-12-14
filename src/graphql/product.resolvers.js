@@ -23,5 +23,10 @@ const getProduct =  (_, args) => {
  }
  // un resolve resuelve las promesas sin necesidad de un await async
 
+ const getProductsByCategory = (parent) => {
+  // console.log(parent);
+  const id = parent.dataValues.id;
+  return service.getByCategory(id);
+ }
 
- module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct};
+ module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductsByCategory};

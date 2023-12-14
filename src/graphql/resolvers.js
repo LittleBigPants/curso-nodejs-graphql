@@ -1,7 +1,7 @@
 const { DATE } = require('sequelize');
-const {getProducts, getProduct, addProduct, updateProduct, deleteProduct} = require('./product.resolvers');
+const {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductsByCategory} = require('./product.resolvers');
 const {login} = require('./auth.resolvers');
-const {addCategory} = require('./category.resolvers');
+const {addCategory, getCategory} = require('./category.resolvers');
 const { RegularExpression } = require("graphql-scalars");
 
 const CategoryNameType = new RegularExpression("CategoryNameType", /^[a-zA-Z0-9]{3,8}$/)
@@ -21,16 +21,20 @@ const resolvers = {
     getNumbers: (_, args) => args.numbers,
     //products
     product: getProduct,
-    allProducts: getProducts
+    allProducts: getProducts,
+    category: getCategory
   },
   Mutation: {
     addProduct,
     deleteProduct,
     updateProduct,
     login,
-    addCategory
+    addCategory,
   },
-  CategoryNameType
+  CategoryNameType,
+  Category: {
+    products: getProductsByCategory
+  }
 };
 
 

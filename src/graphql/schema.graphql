@@ -10,6 +10,7 @@ type Query {
     # products
     product(id: ID!): Product
     allProducts: [Product!]!
+    category(id: ID!): Category
   }
 
   type Mutation {
@@ -37,6 +38,7 @@ type Query {
     id: ID!
     name: String!
     image: String!
+    products: [Product!]!
   }
 
   type AuthResponse {
