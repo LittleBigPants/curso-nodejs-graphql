@@ -17,6 +17,8 @@ type Query {
     addProduct(dto: CreateProductDto!): Product
     updateProduct(id: ID!, dto: UpdateProductDto!): Product
     deleteProduct(id: ID!): ID
+     addCategory(dto: CreateCategoryDto!) : Category!
+
   }
 
 
@@ -62,4 +64,9 @@ type Query {
     description: String
     image: String
     categoryId: ID
+  }
+
+  input CreateCategoryDto{
+    name: String!
+    image: String!
   }
