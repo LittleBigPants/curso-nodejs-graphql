@@ -1,5 +1,6 @@
 const { DATE } = require('sequelize');
 const {getProducts, getProduct, addProduct, updateProduct, deleteProduct} = require('./product.resolvers');
+const {login} = require('./auth.resolvers');
 
 const resolvers = {
   Query: {
@@ -21,7 +22,8 @@ const resolvers = {
   Mutation: {
     addProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    login
   }
 };
 

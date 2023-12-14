@@ -1,37 +1,32 @@
-// /graphql/index.js
-
-// Dependencia que crea un servidor
 const { ApolloServer } = require('@apollo/server');
-// Playground incluido en @apollo/server
-const {
-  ApolloServerPluginLandingPageLocalDefault,
-} = require('@apollo/server/plugin/landingPage/default');
-// Middleware de Express también en @apollo/server
 const { expressMiddleware } = require('@apollo/server/express4');
-const { loadFiles} = require('@graphql-tools/load-files');
-const resolvers = require('./resolvers');
+const { ApolloServerPluginLandingPageLocalDefault } = require('@apollo/server/plugin/landingPage/default')
+const { loadFiles } = require('@graphql-tools/load-files')
+const { buildContext } = require('graphql-passport')
+const resolvers = require('./resolvers')
 
-
-
-
-const useGraphQL = async (app) => {
-  const server = new ApolloServer({
-    typeDefs: await loadFiles('./src/**/*.graphql'), //esto para que tome todas los archivos .graphql
-    resolvers,
-    playground: true,
-    plugins: [ApolloServerPluginLandingPageLocalDefault],
-  });
-
-  await server.start();
-
-  // Uso del middleware en Express
-  app.use(
-    expressMiddleware(server, {
-      context: async ({ req }) => ({
-        token: req.headers.token,
-      }),
-    })
-  );
+//crear servidor de GraphQL
+const useGraphql = async (app) => {
+    const server = new ApolloServer({
+        typeDefs: await loadFiles('./src/**/*.graphql'), //llamada de schema.graphql
+        resolvers, // llamada de Querys y Mutations
+        plugins: [
+            // Install a landing page plugin based on NODE_ENV
+            process.env.NODE_ENV === 'production'
+                ? ApolloServerPluginLandingPageLocalDefault({
+                    graphRef: 'API-graphql@graph-variant',
+                    footer: false,
+                })
+                : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+        ],
+    });
+    await server.start();
+    app.use(
+        '/graphql',
+        expressMiddleware(server, {
+            context: async ({req, res}) => buildContext({req, res})
+        }),
+    );
 };
 
-module.exports = useGraphQL;
+module.exports = useGraphql;
