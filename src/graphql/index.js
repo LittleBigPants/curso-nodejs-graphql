@@ -4,12 +4,21 @@ const { ApolloServerPluginLandingPageLocalDefault } = require('@apollo/server/pl
 const { loadFiles } = require('@graphql-tools/load-files')
 const { buildContext } = require('graphql-passport')
 const resolvers = require('./resolvers')
+const {typeDefs: scalarTypeDef, resolvers: scalarResolvers} = require("graphql-scalars");
 
 //crear servidor de GraphQL
 const useGraphql = async (app) => {
-    const server = new ApolloServer({
-        typeDefs: await loadFiles('./src/**/*.graphql'), //llamada de schema.graphql
-        resolvers, // llamada de Querys y Mutations
+    const typeDefs = [
+      ...await loadFiles('./src/**/*.graphql'),//llamada de schema.graphql
+      scalarTypeDef
+    ];
+    const allResolvers = [
+      resolvers,
+      scalarResolvers
+    ];
+  const server = new ApolloServer({
+        typeDefs,
+        resolvers: allResolvers, // llamada de Querys y Mutations
         plugins: [
             // Install a landing page plugin based on NODE_ENV
             process.env.NODE_ENV === 'production'
